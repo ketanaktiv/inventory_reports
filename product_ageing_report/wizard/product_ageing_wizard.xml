@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+        <!--Display form view of wizard-->    
+        <record id="view_product_ageing_report_form" model="ir.ui.view">
+            <field name="name">product.ageing.report.form</field>
+            <field name="model">product.ageing.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                          <group>
+                            <field name="start_date" />
+                            <field name="end_date" />
+                          </group>
+                          <group>
+                            <field name="selection" widget="radio"/>
+                            <field name="location_id" attrs="{'invisible': [('selection', '=', 'warehouse')]}"/>
+                            <field name="warehouse_id" attrs="{'invisible': [('selection', '=', 'location')]}"/>
+                          </group>
+                    </group>
+                    <footer>
+                        <button string='Print' name="print_report" type="object" default_focus="1" class="oe_highlight"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!--Open the wizard on click of menu-->
+        <record id="open_product_ageing_report_action" model="ir.actions.act_window">
+            <field name="name">Print Product Ageing Report</field>
+            <field name="res_model">product.ageing.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_product_ageing_report_form"/>
+        </record>
+        <!-- Create menu to open wizard for report-->
+        <menuitem id="menu_product_ageing" name="Product Ageing Report" parent="stock.menu_warehouse_report" sequence="100" action="open_product_ageing_report_action"/>
+</odoo>

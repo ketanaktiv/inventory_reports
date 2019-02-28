@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_product_not_move">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Product Not Move</h2>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <p><strong>From Date:  </strong><t t-esc="o.start_date"/></p>
+                            </div>
+                            <div t-if="o.warehouse_id" class="col-xs-6 col-xs-offset-3">
+                                <p><strong>Warehouse:</strong><t t-esc="o.warehouse_id.name"/></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <p><strong>To Date:  </strong><t t-esc="o.end_date"/></p>
+                            </div>
+                        </div>
+                        <t t-set="product_data" t-value="o.get_product_data()"/>
+                        <div class="container">
+                            <table class="table table-striped">
+                                <thead style="display: table-header-group">
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Available Quantity</th>
+                                        <th>Incoming Quantity</th>
+                                        <th>Last Sale Date</th>
+                                        <th>Duration</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="product_data" t-as="data">
+                                        <tr style="page-break-inside: avoid">
+                                            <td class="text-left"><t t-esc="data['product_id'].display_name"/></td>
+                                            <td class="text-center"><t t-esc="data['product_id'].qty_available"/></td>
+                                            <td class="text-center"><t t-esc="o.get_product_incoming_qty(data['product_id'])"/></td>
+                                            <td class="text-center"><t t-esc="data['last_sale_date']"/></td>
+                                            <td class="text-center"><t t-esc="data['duration']"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <report
+        id="report_product_move"
+        string="Product Not Moving"
+        model="product.not.move.report"
+        report_type="qweb-pdf"
+        name="product_not_move_report.report_product_not_move"
+        file="product_not_move_report.report_product_not_move"
+        menu="False"/>
+</odoo>

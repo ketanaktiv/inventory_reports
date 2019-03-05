@@ -47,7 +47,10 @@ class ProductNotMove(models.TransientModel):
         picking_recs = self.env['stock.picking'].search(domain)
         if picking_recs:
             for product in product_rec:
-                data_dict = {}
+                incoming_qty, qty_available = self.get_product_incoming_qty(
+                    product, location_id)
+                data_dict = {'incoming': incoming_qty,
+                             'available': qty_available}
                 stock_move_rec = self.fetch_stock_moves(
                     picking_recs, product)
 
@@ -55,7 +58,10 @@ class ProductNotMove(models.TransientModel):
                     last_sale_date = datetime.strptime(
                         stock_move_rec['move_rec'].date_expected,
                         "%Y-%m-%d %H:%M:%S")
-                    duration = datetime.today().date() - last_sale_date.date()
+                    start_date = datetime.strptime(
+                        self.start_date,
+                        "%Y-%m-%d")
+                    duration = start_date.date() - last_sale_date.date()
                     data_dict.update({
                         'product_id': stock_move_rec['move_rec'].product_id,
                         'last_sale_date': str(last_sale_date.date()),
@@ -66,9 +72,22 @@ class ProductNotMove(models.TransientModel):
                     data_dict.update({
                         'product_id': product,
                         'last_sale_date': False,
-                        'duration': False
+                        'duration': False,
                     })
                     vals.append(data_dict)
+        if not picking_recs:
+            for product in product_rec:
+                incoming_qty, qty_available = self.get_product_incoming_qty(
+                    product, location_id)
+                data_dict = {}
+                data_dict.update({
+                    'product_id': product,
+                    'last_sale_date': False,
+                    'duration': False,
+                    'incoming': incoming_qty,
+                    'available': qty_available
+                })
+                vals.append(data_dict)
         return vals
 
     @api.multi
@@ -91,10 +110,13 @@ class ProductNotMove(models.TransientModel):
         return vals
 
     @api.multi
-    def get_product_incoming_qty(self, product_rec):
-        stock_quant_ids = self.env['stock.quant'].search(
-            [('product_id', '=', product_rec.id)])
-        location_ids = stock_quant_ids.mapped('location_id')
+    def get_product_incoming_qty(self, product_rec, location_id=False):
+        if location_id:
+            location_ids = self.env['stock.location'].browse(location_id)
+        if not location_id:
+            stock_quant_ids = self.env['stock.quant'].search(
+                [('product_id', '=', product_rec.id)])
+            location_ids = stock_quant_ids.mapped('location_id')
         location_id_list = location_ids.filtered(
             lambda s: s.usage == "internal").ids
         stock_location_records = {}
@@ -103,9 +125,12 @@ class ProductNotMove(models.TransientModel):
                 location_id, product_rec)
             stock_location_records.update(res)
         incoming_qty = 0.0
+        qty_available = 0.0
         for data in stock_location_records:
             incoming_qty += stock_location_records[data]['incoming_qty']
-        return incoming_qty
+        for data in stock_location_records:
+            qty_available += stock_location_records[data]['qty_available']
+        return incoming_qty, qty_available
 
     def get_product_stock_location(self, location_id, product_id):
         # Get Incoming Quantity of product with perticular location.

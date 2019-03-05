@@ -35,8 +35,8 @@
                                     <t t-foreach="product_data" t-as="data">
                                         <tr style="page-break-inside: avoid">
                                             <td class="text-left"><t t-esc="data['product_id'].display_name"/></td>
-                                            <td class="text-center"><t t-esc="data['product_id'].qty_available"/></td>
-                                            <td class="text-center"><t t-esc="o.get_product_incoming_qty(data['product_id'])"/></td>
+                                            <td class="text-center"><t t-esc="data['available']"/></td>
+                                            <td class="text-center"><t t-esc="data['incoming']"/></td>
                                             <td class="text-center"><t t-esc="data['last_sale_date']"/></td>
                                             <td class="text-center"><t t-esc="data['duration']"/></td>
                                         </tr>

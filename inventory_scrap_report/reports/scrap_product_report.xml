@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_scrap_product_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <p><strong>From Date:  </strong><t t-esc="o.start_date"/></p>
+                            </div>
+                            <div t-if="o.warehouse_id" class="col-xs-6 col-xs-offset-3">
+                                <p><strong>Warehouse:</strong><t t-esc="o.warehouse_id.name"/></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <p><strong>To Date:  </strong><t t-esc="o.end_date"/></p>
+                            </div>
+                        </div>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Location</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <report
+        id="report_scrap_product"
+        string="Scrap Products"
+        model="scrap.product.wizard"
+        report_type="qweb-pdf"
+        name="inventory_scrap_report.report_scrap_product_template"
+        file="inventory_scrap_report.report_scrap_product_template"
+        menu="False"/>
+</odoo>

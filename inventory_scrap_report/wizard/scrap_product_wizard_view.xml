@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="product_not_moving_form_view" model="ir.ui.view">
-        <field name="model">product.not.move.report</field>
+    <record id="scrap_product_wizard_form_view" model="ir.ui.view">
+        <field name="model">scrap.product.wizard</field>
         <field name="arch" type="xml">
             <form>
                 <group>
@@ -14,21 +14,21 @@
                     </group>
                 </group>
                 <footer>
-                    <button string='Print' name="print_product_report" type="object" class="btn-primary"/>
+                    <button string='Print' name="print_sp_report" type="object" class="btn-primary"/>
                     <button string="Cancel" class="btn-default" special="cancel"/>
                 </footer>
             </form>
         </field>
     </record>
 
-    <record id="product_not_moving_wizard_action" model="ir.actions.act_window">
-        <field name="name">Product Not Move</field>
-        <field name="res_model">product.not.move.report</field>
+    <record id="scrap_product_wizard_action" model="ir.actions.act_window">
+        <field name="name">Scrap Products</field>
+        <field name="res_model">scrap.product.wizard</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
 
-    <menuitem name="Product Not Move" id="product_not_moving" parent="stock.menu_warehouse_report"
-              action="product_not_moving_wizard_action" groups="stock.group_stock_manager"/>
+    <menuitem name="Scrap Products" id="scrap_product_report" parent="stock.menu_warehouse_report"
+              action="scrap_product_wizard_action" groups="stock.group_stock_manager"/>
 </odoo>

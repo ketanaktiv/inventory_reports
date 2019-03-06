@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_inventory_move">
+        <t t-name="isnventory_data">
+            <div class="container">
+                <h2 class="text-center">Inventory</h2>
+                <table class="table table-bordered" width="100%">
+                    <tr t-foreach="header_data" t-as="header">
+                        <t t-foreach="header" t-as="data">
+                            <td t-if="data['title']" t-att-width="str(round(100 / len(header))) + '%'" style="text-align: left;">
+                                <t t-esc="data['title']"/>
+                            </td>
+                        </t>
+                    </tr>
+                    <tr>
+                        <t t-foreach="measure_data" t-as="measure">
+                            <td t-att-width="str(round(100 / len(measure_data))) + '%'" style="text-align: left;">
+                                <t t-esc="measure['measure']"/>
+                            </td>
+                        </t>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

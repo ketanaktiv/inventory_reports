@@ -1,0 +1,9 @@
+<templates>
+    <t t-extend="PivotView.buttons">
+        <t t-jquery="button.o_pivot_download" t-operation="after">
+            <t t-if="model == 'stock.quant'">
+                <button class="btn btn-default fa fa-file-pdf-o o_pdf_download" title="Download PDF"/>
+            </t>
+        </t>
+    </t>
+</templates>

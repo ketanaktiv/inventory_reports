@@ -11,8 +11,8 @@
     'data': [
         'views/product_template.xml',
         'wizard/product_ageing_wizard.xml',
-        'report/product_ageing_report_template.xml',
-        'report/product_ageing_report.xml',
+        'reports/product_ageing_report_template.xml',
+        'reports/product_ageing_report.xml',
     ],
     'installable': True,
     'images': [],

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report 
+        id="action_product_ageing_report"
+        string="Print Product Ageing Report"
+        model="product.ageing.report"
+        report_type="qweb-pdf"
+        file="product_ageing_report.product_ageing"
+        name="product_ageing_report.product_ageing"
+    />
+</odoo>

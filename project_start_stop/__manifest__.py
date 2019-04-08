@@ -32,7 +32,7 @@
         Project Task Start Stop.
     """,
     "live_test_url": 'http://odoodemo.webkul.com/?module=project_start_stop&version=11.0',
-    'depends': ['project', 'hr_timesheet', 'wk_wizard_messages'],
+    'depends': ['project', 'hr_timesheet','wk_wizard_messages'],
     'data': [
         'wizard/work_log_wizard_view.xml',
         'security/project_timesheet_security.xml',

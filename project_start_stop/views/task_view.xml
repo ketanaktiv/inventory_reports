@@ -28,7 +28,7 @@
                                 class="oe_stat_button" icon="fa-history" string="View Work Summary"/>
                 </xpath>
 				<field name="user_id" position="replace">
-                    <field name="user_id" string="Team Leader" options='{"no_open": True,"no_create_edit": True}' class="oe_inline"/>
+                    <field name="user_id" options='{"no_open": True,"no_create_edit": True}' class="oe_inline"/>
                     <field name="log_action" invisible="1"/>
                     <label for="task_start" string="Working Status" attrs="{'invisible': [('log_action', 'in', ['working','closed'])]}"/>
                     <button name="task_start" string="Start Now" type="object" class="fa fa-youtube-play text-success" attrs="{'invisible': [('log_action', 'in', ['working','closed'])]}" />
